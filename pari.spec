@@ -16,7 +16,6 @@ Source0:	ftp://megrez.math.u-bordeaux.fr/pub/pari/unix/%{name}-%{version}.tar.bz
 Source1:	ftp://megrez.math.u-bordeaux.fr/pub/pari/galdata.tar.bz2
 Source2:    ftp://megrez.math.u-bordeaux.fr/pub/pari/GP2C/gp2c-%{gp2c_version}.tar.bz2
 URL:		http://pari.math.u-bordeaux.fr/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	perl-devel
 BuildRequires:  libx11-devel
 BuildRequires:	readline-devel
