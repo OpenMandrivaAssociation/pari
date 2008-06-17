@@ -21,7 +21,7 @@ BuildRequires:	perl-devel
 BuildRequires:  libx11-devel
 BuildRequires:	readline-devel
 BuildRequires:  ncurses-devel
-BuildRequires:  tetex
+BuildRequires:  tetex tetex-dvips
 
 %description
 PARI/GP is a widely used computer algebra system designed for fast
