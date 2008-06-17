@@ -87,7 +87,7 @@ sh Configure_	\
 	--host=%{_arch}-%{_os}			\
 	--graphic=X11
 
-%make gp doc bench
+make gp doc bench
 
 # Setup configuration file
 sed	-e 's,/usr/local/,'%{_prefix}/',g'\
