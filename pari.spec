@@ -19,6 +19,7 @@ Source3:	http://pari.math.u-bordeaux.fr/pub/pari/packages/seadata.tgz
 Source4:	http://pari.math.u-bordeaux.fr/pub/pari/packages/nftables.tgz
 Source5:	http://pari.math.u-bordeaux.fr/pub/pari/GP2C/gp2c-0.0.5pl7.tar.gz
 URL:		http://pari.math.u-bordeaux.fr/
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 Patch0:		pari-arch.patch
 Patch1:		pari-Werror=format.patch
