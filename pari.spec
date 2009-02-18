@@ -43,7 +43,7 @@ for faster computations.
 
 %package	data
 Group:		Sciences/Mathematics
-Summary:	Optional pari data packages.
+Summary:	Optional pari data packages
 Requires:	%{name} > 2.2.10
 
 %description	data
