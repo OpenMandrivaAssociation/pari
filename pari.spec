@@ -1,7 +1,7 @@
 %define	name		pari
 %define	pari_version	2.3.4
 %define	gp2c_version	0.0.5pl7
-%define	release		%mkrel 1
+%define	release		%mkrel 2
 %define	lib_name_orig	lib%{name}
 %define	lib_major	2
 %define	lib_name	%mklibname %{name} %{lib_major}
@@ -25,12 +25,14 @@ Patch0:		pari-arch.patch
 Patch1:		pari-Werror=format.patch
 
 BuildRequires:	perl-devel
+BuildRequires:	libgmp-devel
 BuildRequires:	libx11-devel
 BuildRequires:	readline-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	tetex tetex-dvips
 BuildRequires:	emacs
 Requires:	perl
+Requires:	xdvi
 
 %description
 PARI/GP is a widely used computer algebra system designed for fast
@@ -104,7 +106,8 @@ sh Configure						\
 	--sysdatadir=%{_libdir}/%{name}-%{pari_version}	\
 	--share-prefix=%{_datadir}			\
 	--host=%{_arch}-%{_os}				\
-	--graphic=X11
+	--graphic=X11					\
+	--with-gmp
 
 make gp doc bench
 
@@ -141,6 +144,11 @@ sed	-e 's@/usr/local/@%{_prefix}/@'				\
 # don't need to install this file...
 rm -f %{pkgdocdir}/%{name}/Makefile
 
+# gphelp wants docs in %{pkgdatadir}/data/doc (removing the /data/ requirement)
+ln -sf %{pkgdocdir} %{buildroot}%{pkgdatadir}/doc
+perl -pi -e 's@%{pkgdatadir}/data@%{pkgdatadir}@;'		\
+	%{buildroot}/%{_bindir}/gphelp
+
 %clean
 rm -rf %{buildroot}
 
@@ -164,12 +172,14 @@ rm -rf %{buildroot}
 %{_mandir}/man1/gphelp.1*
 %doc AUTHORS CHANGES COMPAT MACHINES README
 %dir %{pkgdatadir}
+%{pkgdatadir}/doc
 %dir %{_datadir}/emacs/site-lisp/pari
 %{_datadir}/emacs/site-lisp/pari/*
 
 %files	data
 %defattr(-,root,root)
-%{pkgdatadir}/*
+%dir %{pkgdatadir}/data
+%{pkgdatadir}/data/*
 
 %files	-n %{lib_name}
 %defattr(-,root,root)
