@@ -1,7 +1,7 @@
 %define	name		pari
 %define	pari_version	2.3.4
-%define	gp2c_version	0.0.5pl7
-%define	release		%mkrel 4
+%define	gp2c_version	0.0.5pl9
+%define	release		%mkrel 5
 %define	lib_name_orig	lib%{name}
 %define	lib_major	2
 %define	lib_name	%mklibname %{name} %{lib_major}
@@ -17,7 +17,7 @@ Source1:	http://pari.math.u-bordeaux.fr/pub/pari/packages/elldata.tgz
 Source2:	http://pari.math.u-bordeaux.fr/pub/pari/packages/galdata.tgz
 Source3:	http://pari.math.u-bordeaux.fr/pub/pari/packages/seadata.tgz
 Source4:	http://pari.math.u-bordeaux.fr/pub/pari/packages/nftables.tgz
-Source5:	http://pari.math.u-bordeaux.fr/pub/pari/GP2C/gp2c-0.0.5pl7.tar.gz
+Source5:	http://pari.math.u-bordeaux.fr/pub/pari/GP2C/gp2c-%{gp2c_version}.tar.gz
 URL:		http://pari.math.u-bordeaux.fr/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
@@ -32,7 +32,7 @@ BuildRequires:	ncurses-devel
 BuildRequires:	tetex tetex-dvips
 BuildRequires:	emacs
 Requires:	perl
-Requires:	xdvi
+Suggests:	xdvi
 
 %description
 PARI/GP is a widely used computer algebra system designed for fast
