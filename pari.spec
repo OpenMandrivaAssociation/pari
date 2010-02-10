@@ -1,7 +1,7 @@
 %define	name		pari
 %define	pari_version	2.3.4
 %define	gp2c_version	0.0.5pl9
-%define	release		%mkrel 5
+%define	release		%mkrel 6
 %define	lib_name_orig	lib%{name}
 %define	lib_major	2
 %define	lib_name	%mklibname %{name} %{lib_major}
