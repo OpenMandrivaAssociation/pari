@@ -1,7 +1,7 @@
 %define	name		pari
-%define	pari_version	2.3.4
+%define	pari_version	2.3.5
 %define	gp2c_version	0.0.5pl9
-%define	release		%mkrel 6
+%define	release		%mkrel 7
 %define	lib_name_orig	lib%{name}
 %define	lib_major	2
 %define	lib_name	%mklibname %{name} %{lib_major}
@@ -12,7 +12,7 @@ Version:	%{pari_version}
 Release:	%{release}
 License:	GPL
 Group:		Sciences/Mathematics
-Source0:	http://pari.math.u-bordeaux.fr/pub/pari/unix/pari-2.3.4.tar.gz
+Source0:	http://pari.math.u-bordeaux.fr/pub/pari/unix/pari-%{pari_version}.tar.gz
 Source1:	http://pari.math.u-bordeaux.fr/pub/pari/packages/elldata.tgz
 Source2:	http://pari.math.u-bordeaux.fr/pub/pari/packages/galdata.tgz
 Source3:	http://pari.math.u-bordeaux.fr/pub/pari/packages/seadata.tgz
