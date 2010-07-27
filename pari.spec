@@ -1,7 +1,7 @@
 %define	name		pari
 %define	pari_version	2.3.5
 %define	gp2c_version	0.0.5pl9
-%define	release		%mkrel 7
+%define	release		%mkrel 8
 %define	lib_name_orig	lib%{name}
 %define	lib_major	2
 %define	lib_name	%mklibname %{name} %{lib_major}
@@ -23,6 +23,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 Patch0:		pari-arch.patch
 Patch1:		pari-Werror=format.patch
+Patch2:		pari-gphelp.patch
 
 BuildRequires:	perl-devel
 BuildRequires:	libgmp-devel
@@ -32,7 +33,7 @@ BuildRequires:	ncurses-devel
 BuildRequires:	tetex tetex-dvips
 BuildRequires:	emacs
 Requires:	perl
-Suggests:	xdvi
+Requires:	xdg-utils
 
 %description
 PARI/GP is a widely used computer algebra system designed for fast
@@ -94,6 +95,7 @@ mv -f nftables data
 
 %patch0	-p1
 %patch1	-p1
+%patch2	-p1
 
 %build
 %define pkgdocdir	%{_docdir}/%{name}
