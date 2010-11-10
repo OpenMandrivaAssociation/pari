@@ -1,7 +1,7 @@
 %define	name		pari
-%define	pari_version	2.3.5
-%define	gp2c_version	0.0.5pl9
-%define	release		%mkrel 8
+%define	pari_version	2.4.3.alpha
+%define	gp2c_version	0.0.5pl10
+%define	release		%mkrel 1
 %define	lib_name_orig	lib%{name}
 %define	lib_major	2
 %define	lib_name	%mklibname %{name} %{lib_major}
@@ -24,6 +24,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Patch0:		pari-arch.patch
 Patch1:		pari-Werror=format.patch
 Patch2:		pari-gphelp.patch
+Patch3:		pari-runpath.patch
 
 BuildRequires:	perl-devel
 BuildRequires:	libgmp-devel
@@ -96,11 +97,14 @@ mv -f nftables data
 %patch0	-p1
 %patch1	-p1
 %patch2	-p1
+%patch3	-p1
 
 %build
 %define pkgdocdir	%{_docdir}/%{name}
 %define pkgdatadir	%{_datadir}/%{name}-%{pari_version}
 
+# Using --libdir to properly link with newer interface
+# Using --disable-tls for safety due to other packages linked to pari
 sh Configure						\
 	--prefix=%{_prefix}				\
 	--includedir=%{_includedir}/%{name}		\
@@ -109,7 +113,9 @@ sh Configure						\
 	--share-prefix=%{_datadir}			\
 	--host=%{_arch}-%{_os}				\
 	--graphic=X11					\
-	--with-gmp
+	--with-gmp					\
+	--libdir=%{buildroot}%{_libdir}			\
+	--disable-tls
 
 make gp doc bench
 
@@ -164,7 +170,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/gprc
-%{_bindir}/gp-2.3
+%{_bindir}/gp-2.4
 %{_bindir}/gp
 %{_bindir}/gphelp
 %{_bindir}/tex2mail
@@ -175,8 +181,6 @@ rm -rf %{buildroot}
 %doc AUTHORS CHANGES COMPAT MACHINES README
 %dir %{pkgdatadir}
 %{pkgdatadir}/doc
-%dir %{_datadir}/emacs/site-lisp/pari
-%{_datadir}/emacs/site-lisp/pari/*
 
 %files	data
 %defattr(-,root,root)
