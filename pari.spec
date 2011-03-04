@@ -1,7 +1,7 @@
 %define	name		pari
 %define	pari_version	2.4.3.alpha
 %define	gp2c_version	0.0.5pl10
-%define	release		%mkrel 1
+%define	release		%mkrel 2
 %define	lib_name_orig	lib%{name}
 %define	lib_major	2
 %define	lib_name	%mklibname %{name} %{lib_major}
@@ -25,6 +25,14 @@ Patch0:		pari-arch.patch
 Patch1:		pari-Werror=format.patch
 Patch2:		pari-gphelp.patch
 Patch3:		pari-runpath.patch
+
+# sagemath patches
+Patch4:		mp.c.patch
+Patch5:		pari_1084.patch
+Patch6:		pari_1132.patch
+Patch7:		pari_1141.patch
+Patch8:		pari_1143.patch
+Patch9:		pari_1144.patch
 
 BuildRequires:	perl-devel
 BuildRequires:	libgmp-devel
@@ -98,6 +106,13 @@ mv -f nftables data
 %patch1	-p1
 %patch2	-p1
 %patch3	-p1
+
+%patch4 -p0
+%patch5 -p0
+%patch6 -p0
+%patch7 -p0
+%patch8 -p0
+%patch9 -p0
 
 %build
 %define pkgdocdir	%{_docdir}/%{name}
