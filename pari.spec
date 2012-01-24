@@ -1,7 +1,7 @@
 %define	name		pari
-%define	pari_version	2.4.3.alpha
-%define	gp2c_version	0.0.5pl10
-%define	release		%mkrel 2
+%define	pari_version	2.5.0
+%define	gp2c_version	0.0.7pl1
+%define	release		%mkrel 1
 %define	lib_name_orig	lib%{name}
 %define	lib_major	2
 %define	lib_name	%mklibname %{name} %{lib_major}
@@ -17,22 +17,18 @@ Source1:	http://pari.math.u-bordeaux.fr/pub/pari/packages/elldata.tgz
 Source2:	http://pari.math.u-bordeaux.fr/pub/pari/packages/galdata.tgz
 Source3:	http://pari.math.u-bordeaux.fr/pub/pari/packages/seadata.tgz
 Source4:	http://pari.math.u-bordeaux.fr/pub/pari/packages/nftables.tgz
-Source5:	http://pari.math.u-bordeaux.fr/pub/pari/GP2C/gp2c-%{gp2c_version}.tar.gz
+Source5:	http://pari.math.u-bordeaux.fr/pub/pari/packages/galpol.tgz
+Source6:	http://pari.math.u-bordeaux.fr/pub/pari/GP2C/gp2c-%{gp2c_version}.tar.gz
 URL:		http://pari.math.u-bordeaux.fr/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 Patch0:		pari-arch.patch
-Patch1:		pari-Werror=format.patch
-Patch2:		pari-gphelp.patch
-Patch3:		pari-runpath.patch
+Patch1:		pari-gphelp.patch
+Patch2:		pari-runpath.patch
 
-# sagemath patches
-Patch4:		mp.c.patch
-Patch5:		pari_1084.patch
-Patch6:		pari_1132.patch
-Patch7:		pari_1141.patch
-Patch8:		pari_1143.patch
-Patch9:		pari_1144.patch
+# from sagemath
+Patch3:		mp.c.patch
+Patch4:		reorder_init_opts.patch
 
 BuildRequires:	perl-devel
 BuildRequires:	libgmp-devel
@@ -99,20 +95,14 @@ Note: use gp2c-run to run your programs inside the PARI/GP
 environment.
 
 %prep
-%setup -q -a1 -a2 -a3 -a4 -a5
+%setup -q -a1 -a2 -a3 -a4 -a5 -a6
 mv -f nftables data
 
 %patch0	-p1
 %patch1	-p1
 %patch2	-p1
-%patch3	-p1
-
+%patch3 -p0
 %patch4 -p0
-%patch5 -p0
-%patch6 -p0
-%patch7 -p0
-%patch8 -p0
-%patch9 -p0
 
 %build
 %define pkgdocdir	%{_docdir}/%{name}
@@ -132,12 +122,16 @@ sh Configure						\
 	--libdir=%{buildroot}%{_libdir}			\
 	--disable-tls
 
-make gp doc bench
+make gp docpdf bench
 
 # gp2c
 cd gp2c-%{gp2c_version}
 %configure	--datadir=%{pkgdatadir}			\
 		--with-paricfg=../Olinux-%{_arch}/pari.cfg
+
+# FIXME just satisfy build dependency
+ln -sf ../config/missing desc
+
 make
 cd ..
 
@@ -185,7 +179,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/gprc
-%{_bindir}/gp-2.4
+%{_bindir}/gp-2.5
 %{_bindir}/gp
 %{_bindir}/gphelp
 %{_bindir}/tex2mail
