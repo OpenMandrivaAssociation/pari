@@ -1,7 +1,7 @@
 %define	name		pari
-%define	pari_version	2.5.0
+%define	pari_version	2.5.1
 %define	gp2c_version	0.0.7pl1
-%define	release		%mkrel 1
+%define	release		1
 %define	lib_name_orig	lib%{name}
 %define	lib_major	2
 %define	lib_name	%mklibname %{name} %{lib_major}
@@ -20,12 +20,10 @@ Source4:	http://pari.math.u-bordeaux.fr/pub/pari/packages/nftables.tgz
 Source5:	http://pari.math.u-bordeaux.fr/pub/pari/packages/galpol.tgz
 Source6:	http://pari.math.u-bordeaux.fr/pub/pari/GP2C/gp2c-%{gp2c_version}.tar.gz
 URL:		http://pari.math.u-bordeaux.fr/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 Patch0:		pari-arch.patch
 Patch1:		pari-gphelp.patch
 Patch2:		pari-runpath.patch
-
 # from sagemath
 Patch3:		mp.c.patch
 Patch4:		reorder_init_opts.patch
@@ -166,18 +164,7 @@ ln -sf %{pkgdocdir} %{buildroot}%{pkgdatadir}/doc
 perl -pi -e 's@%{pkgdatadir}/data@%{pkgdatadir}@;'		\
 	%{buildroot}/%{_bindir}/gphelp
 
-%clean
-rm -rf %{buildroot}
-
-%if %mdkversion < 200900
-%post   -n %{lib_name} -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
-%postun -n %{lib_name} -p /sbin/ldconfig
-%endif
-
 %files
-%defattr(-,root,root)
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/gprc
 %{_bindir}/gp-2.5
 %{_bindir}/gp
@@ -192,25 +179,20 @@ rm -rf %{buildroot}
 %{pkgdatadir}/doc
 
 %files	data
-%defattr(-,root,root)
 %dir %{pkgdatadir}/data
 %{pkgdatadir}/data/*
 
 %files	-n %{lib_name}
-%defattr(-,root,root)
 %{_libdir}/*.so.*
 
 %files	-n %{lib_name}-devel
-%defattr(-,root,root)
 %{_includedir}/%{name}
 %{_libdir}/*.so
 %dir %{_libdir}/%{name}-%{pari_version}
 %dir %{_libdir}/%{name}-%{pari_version}/*
 
 %files	-n gp2c
-%defattr(-,root,root)
 %attr(755,root,root) %{_bindir}/gp2c*
 %doc gp2c-%{gp2c_version}/{AUTHORS,ChangeLog,NEWS,README,BUGS}
 %{pkgdatadir}/gp2c
 %{_mandir}/man1/gp2c*.1*
-
