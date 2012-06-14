@@ -1,15 +1,13 @@
-%define	name		pari
 %define	pari_version	2.5.1
 %define	gp2c_version	0.0.7pl1
-%define	release		1
 %define	lib_name_orig	lib%{name}
 %define	lib_major	2
 %define	lib_name	%mklibname %{name} %{lib_major}
 
 Summary:	PARI/GP - Number Theory-oriented Computer Algebra System
-Name:		%{name}
+Name:		pari
 Version:	%{pari_version}
-Release:	%{release}
+Release:	2
 License:	GPL
 Group:		Sciences/Mathematics
 Source0:	http://pari.math.u-bordeaux.fr/pub/pari/unix/pari-%{pari_version}.tar.gz
@@ -66,7 +64,7 @@ Group:		System/Libraries
 Summary:	Shared PARI library
 Provides:	%{lib_name_orig} = %{version}-%{release}
 
-%description -n %{lib_name}
+%description -n	%{lib_name}
 This package contains the libraries needed to run pari.
 
 %package -n	%{lib_name}-devel
@@ -96,9 +94,9 @@ environment.
 %setup -q -a1 -a2 -a3 -a4 -a5 -a6
 mv -f nftables data
 
-%patch0	-p1
-%patch1	-p1
-%patch2	-p1
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 %patch3 -p0
 %patch4 -p0
 
@@ -178,20 +176,20 @@ perl -pi -e 's@%{pkgdatadir}/data@%{pkgdatadir}@;'		\
 %dir %{pkgdatadir}
 %{pkgdatadir}/doc
 
-%files	data
+%files data
 %dir %{pkgdatadir}/data
 %{pkgdatadir}/data/*
 
-%files	-n %{lib_name}
+%files -n %{lib_name}
 %{_libdir}/*.so.*
 
-%files	-n %{lib_name}-devel
+%files -n %{lib_name}-devel
 %{_includedir}/%{name}
 %{_libdir}/*.so
 %dir %{_libdir}/%{name}-%{pari_version}
 %dir %{_libdir}/%{name}-%{pari_version}/*
 
-%files	-n gp2c
+%files -n gp2c
 %attr(755,root,root) %{_bindir}/gp2c*
 %doc gp2c-%{gp2c_version}/{AUTHORS,ChangeLog,NEWS,README,BUGS}
 %{pkgdatadir}/gp2c
