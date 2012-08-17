@@ -1,5 +1,5 @@
-%define	pari_version	2.5.1
-%define	gp2c_version	0.0.7pl1
+%define	pari_version	2.5.2
+%define	gp2c_version	0.0.7pl3
 %define	lib_name_orig	lib%{name}
 %define	lib_major	2
 %define	lib_name	%mklibname %{name} %{lib_major}
@@ -7,7 +7,7 @@
 Summary:	PARI/GP - Number Theory-oriented Computer Algebra System
 Name:		pari
 Version:	%{pari_version}
-Release:	2
+Release:	1
 License:	GPL
 Group:		Sciences/Mathematics
 Source0:	http://pari.math.u-bordeaux.fr/pub/pari/unix/pari-%{pari_version}.tar.gz
@@ -24,10 +24,9 @@ Patch1:		pari-gphelp.patch
 Patch2:		pari-runpath.patch
 # from sagemath
 Patch3:		mp.c.patch
-Patch4:		reorder_init_opts.patch
 
 BuildRequires:	perl-devel
-BuildRequires:	libgmp-devel
+BuildRequires:	gmp-devel
 BuildRequires:	libx11-devel
 BuildRequires:	readline-devel
 BuildRequires:	ncurses-devel
@@ -97,8 +96,7 @@ mv -f nftables data
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p0
-%patch4 -p0
+%patch3 -p1
 
 %build
 %define pkgdocdir	%{_docdir}/%{name}
