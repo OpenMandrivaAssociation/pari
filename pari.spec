@@ -192,3 +192,85 @@ perl -pi -e 's@%{pkgdatadir}/data@%{pkgdatadir}@;'		\
 %doc gp2c-%{gp2c_version}/{AUTHORS,ChangeLog,NEWS,README,BUGS}
 %{pkgdatadir}/gp2c
 %{_mandir}/man1/gp2c*.1*
+
+
+%changelog
+* Fri Aug 17 2012 Paulo Andrade <pcpa@mandriva.com.br> 2.5.2-1
++ Revision: 815198
+- Update to latest upstream release.
+
+* Thu Jun 14 2012 Andrey Bondrov <abondrov@mandriva.org> 2.5.1-2
++ Revision: 805709
+- Bump release
+
+  + Alexander Khrukin <akhrukin@mandriva.org>
+    - version update 2.5.1
+
+* Tue Jan 24 2012 Paulo Andrade <pcpa@mandriva.com.br> 2.5.0-1
++ Revision: 767462
+- Update to latest upstream release
+
+* Fri Mar 04 2011 Paulo Andrade <pcpa@mandriva.com.br> 2.4.3.alpha-2
++ Revision: 641867
+- Add latest sagemath patches
+
+* Thu Nov 11 2010 Paulo Andrade <pcpa@mandriva.com.br> 2.4.3.alpha-1mdv2011.0
++ Revision: 595897
+- Update to pari 2.4.3-alpha
+
+* Tue Jul 27 2010 Paulo Andrade <pcpa@mandriva.com.br> 2.3.5-8mdv2011.0
++ Revision: 560893
+- Use xdg-open in gphelp instead of xdvi
+
+* Wed Feb 10 2010 Funda Wang <fwang@mandriva.org> 2.3.5-7mdv2010.1
++ Revision: 503562
+- New version 2.3.5
+
+* Wed Feb 10 2010 Funda Wang <fwang@mandriva.org> 2.3.4-6mdv2010.1
++ Revision: 503558
+- rebuild for new gmp
+
+* Wed Feb 03 2010 Paulo Andrade <pcpa@mandriva.com.br> 2.3.4-5mdv2010.1
++ Revision: 499828
+- Update to gpc-0.0.5pl9
+- Change from requires to suggests of xdvi
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - rebuild
+
+* Wed Feb 25 2009 Guillaume Rousse <guillomovitch@mandriva.org> 2.3.4-3mdv2009.1
++ Revision: 344843
+- rebuild against new readline
+
+* Fri Feb 20 2009 Paulo Andrade <pcpa@mandriva.com.br> 2.3.4-2mdv2009.1
++ Revision: 343068
+- Use gmp instead of builtin math library.
+  gmp is significantly faster for calculations with large numbers.
+  Correct gphelp, that was expecting to find documentation outside
+  %%{_docdir}.
+  xdvi is now required, as it is used to view documentation.
+  xdvi cannot be installed due to bug #48029; as an alternative, temporary
+  solution, it is possible to either use patch in #38016, or set the
+  GPXDVI environment variable (a good option is the okular program).
+
+* Wed Feb 18 2009 Paulo Andrade <pcpa@mandriva.com.br> 2.3.4-1mdv2009.1
++ Revision: 342731
+- Update to latest upstream release, version 2.3.4
+  o gp2c updated to 0.0.5pl7.
+  o Corrected spec bug that set pari version to gp2c one.
+  o Added extra optional pari data packages to the -data rpm.
+  o Added missing BuildRequires and Requires.
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - rebuild
+    - parallel build is broken
+    - BuildRequires tetex tetex-dvips
+    - rebuild
+    - kill re-definition of %%buildroot on Pixel's request
+
+  + Pixel <pixel@mandriva.com>
+    - do not call ldconfig in %%post/%%postun, it is now handled by filetriggers
+
+  + Olivier Blin <blino@mandriva.org>
+    - restore BuildRoot
+

@@ -1,8 +1,8 @@
 sources:
-  "elldata.tgz:"	0c6cc8bc5f7afba9af8e07662e288dbbd4347d80
-  "galdata.tgz:"	0fe78ed49e197066708a3fc3753b2651107a1264
-  "galpol.tgz:"	68e249e265bac49b843f9a9a543dc2cb119d8625
-  "gp2c-0.0.7pl3.tar.gz:"	0ceed900aa6d5825df470127f60694d2794c3730
-  "nftables.tgz:"	90df66222346b0dbca68925671a374f5e286daeb
-  "pari-2.5.2.tar.gz:"	3efe590e885a7dde521b8553762d3207b919e69f
-  "seadata.tgz:"	fa3deb36df0ce71a466eb0ff0d4a18d48d44e8b9
+  "elldata.tgz": 0c6cc8bc5f7afba9af8e07662e288dbbd4347d80
+  "galdata.tgz": 0fe78ed49e197066708a3fc3753b2651107a1264
+  "galpol.tgz": 68e249e265bac49b843f9a9a543dc2cb119d8625
+  "gp2c-0.0.7pl3.tar.gz": 0ceed900aa6d5825df470127f60694d2794c3730
+  "nftables.tgz": 90df66222346b0dbca68925671a374f5e286daeb
+  "pari-2.5.2.tar.gz": 3efe590e885a7dde521b8553762d3207b919e69f
+  "seadata.tgz": fa3deb36df0ce71a466eb0ff0d4a18d48d44e8b9
