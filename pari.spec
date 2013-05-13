@@ -27,7 +27,7 @@ Patch3:		mp.c.patch
 
 BuildRequires:	perl-devel
 BuildRequires:	gmp-devel
-BuildRequires:	libx11-devel
+BuildRequires:	pkgconfig(x11)
 BuildRequires:	readline-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	tetex tetex-dvips
