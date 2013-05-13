@@ -7,7 +7,7 @@
 Summary:	PARI/GP - Number Theory-oriented Computer Algebra System
 Name:		pari
 Version:	%{pari_version}
-Release:	1
+Release:	2
 License:	GPL
 Group:		Sciences/Mathematics
 Source0:	http://pari.math.u-bordeaux.fr/pub/pari/unix/pari-%{pari_version}.tar.gz
