@@ -1,6 +1,6 @@
---- pari-2.5.2/doc/gphelp.in.orig	2012-08-17 11:17:27.975076548 -0300
-+++ pari-2.5.2/doc/gphelp.in	2012-08-17 11:17:38.712076258 -0300
-@@ -47,8 +47,8 @@ $datadir= "@datadir@";
+--- doc/gphelp.in
++++ doc/gphelp.in
+@@ -47,8 +47,8 @@
  # no expanded material (@key@) below
  $wwwsite= "http://pari.math.u-bordeaux.fr/";
  

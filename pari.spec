@@ -1,5 +1,5 @@
-%define	pari_version	2.5.2
-%define	gp2c_version	0.0.7pl3
+%define	pari_version	2.5.4
+%define	gp2c_version	0.0.7pl5
 %define	lib_name_orig	lib%{name}
 %define	lib_major	2
 %define	lib_name	%mklibname %{name} %{lib_major}
@@ -7,9 +7,10 @@
 Summary:	PARI/GP - Number Theory-oriented Computer Algebra System
 Name:		pari
 Version:	%{pari_version}
-Release:	2
-License:	GPL
+Release:	1
+License:	GPL+
 Group:		Sciences/Mathematics
+URL:		http://pari.math.u-bordeaux.fr/
 Source0:	http://pari.math.u-bordeaux.fr/pub/pari/unix/pari-%{pari_version}.tar.gz
 Source1:	http://pari.math.u-bordeaux.fr/pub/pari/packages/elldata.tgz
 Source2:	http://pari.math.u-bordeaux.fr/pub/pari/packages/galdata.tgz
@@ -17,37 +18,38 @@ Source3:	http://pari.math.u-bordeaux.fr/pub/pari/packages/seadata.tgz
 Source4:	http://pari.math.u-bordeaux.fr/pub/pari/packages/nftables.tgz
 Source5:	http://pari.math.u-bordeaux.fr/pub/pari/packages/galpol.tgz
 Source6:	http://pari.math.u-bordeaux.fr/pub/pari/GP2C/gp2c-%{gp2c_version}.tar.gz
-URL:		http://pari.math.u-bordeaux.fr/
-
-Patch0:		pari-arch.patch
-Patch1:		pari-gphelp.patch
-Patch2:		pari-runpath.patch
-# from sagemath
-Patch3:		mp.c.patch
+Source7:        gp.desktop
+Source8:	%{name}.rpmlintrc
+Patch0:         pari-2.5.1-xdgopen.patch
+Patch1:         pari-2.5.1-optflags.patch
+Patch10:        pari-2.5.4-missing-field-init.patch
+Patch11:        pari-2.5.3-declaration-not-prototype.patch
+Patch12:        pari-2.5.2-clobbered.patch
 
 BuildRequires:	perl-devel
 BuildRequires:	gmp-devel
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	readline-devel
 BuildRequires:	ncurses-devel
-BuildRequires:	tetex tetex-dvips
+BuildRequires:	texlive
 BuildRequires:	emacs
 Requires:	perl
 Requires:	xdg-utils
 
 %description
-PARI/GP is a widely used computer algebra system designed for fast
-computations in number theory (factorizations, algebraic number theory,
-elliptic curves...), but also contains a large number of other useful
-functions to compute with mathematical entities such as matrices,
-polynomials, power series, algebraic numbers, etc., and a lot of
-transcendental functions. PARI is also available as a C library to allow
-for faster computations.
+PARI is a widely used computer algebra system designed for fast computations in
+number theory (factorizations, algebraic number theory, elliptic curves...),
+but also contains a large number of other useful functions to compute with
+mathematical entities such as matrices, polynomials, power series, algebraic
+numbers, etc., and a lot of transcendental functions.
+
+This package contains the shared libraries. The interactive
+calculator PARI/GP is in package pari-gp.
 
 %package	data
 Group:		Sciences/Mathematics
 Summary:	Optional pari data packages
-Requires:	%{name} > 2.2.10
+Requires:	%{name} = %{EVRD}
 
 %description	data
   elldata is PARI/GP version of J. E. Cremona Elliptic Curve Data,
@@ -93,10 +95,21 @@ environment.
 %setup -q -a1 -a2 -a3 -a4 -a5 -a6
 mv -f nftables data
 
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
+# Use xdg-open rather than xdvi to display DVI files (#530565)
+%patch0
+
+# Use our optflags, not upstream's
+%patch1
+sed -i -e 's|@OPTFLAGS@|%{optflags} -Wall -Wextra -Wstrict-prototypes|' config/get_cc
+
+# Fix compiler warnings
+# http://pari.math.u-bordeaux.fr/cgi-bin/bugreport.cgi?bug=1316
+%patch10
+%patch11
+%patch12
+
+# Avoid unwanted rpaths
+sed -i "s|runpathprefix='.*'|runpathprefix=''|" config/get_ld
 
 %build
 %define pkgdocdir	%{_docdir}/%{name}
@@ -130,7 +143,6 @@ make
 cd ..
 
 %install
-rm -rf %{buildroot}
 
 # pari, libpari & libpari-devel
 %makeinstall_std					\
@@ -160,6 +172,12 @@ ln -sf %{pkgdocdir} %{buildroot}%{pkgdatadir}/doc
 perl -pi -e 's@%{pkgdatadir}/data@%{pkgdatadir}@;'		\
 	%{buildroot}/%{_bindir}/gphelp
 
+# Desktop menu entry
+mkdir -p %{buildroot}%{_datadir}/applications
+desktop-file-install \
+    --dir %{buildroot}%{_datadir}/applications \
+    %{SOURCE7}
+
 %files
 %config(noreplace) %attr(644,root,root) %{_sysconfdir}/gprc
 %{_bindir}/gp-2.5
@@ -173,6 +191,7 @@ perl -pi -e 's@%{pkgdatadir}/data@%{pkgdatadir}@;'		\
 %doc AUTHORS CHANGES COMPAT MACHINES README
 %dir %{pkgdatadir}
 %{pkgdatadir}/doc
+%{_datadir}/applications/gp.desktop
 
 %files data
 %dir %{pkgdatadir}/data
@@ -192,85 +211,3 @@ perl -pi -e 's@%{pkgdatadir}/data@%{pkgdatadir}@;'		\
 %doc gp2c-%{gp2c_version}/{AUTHORS,ChangeLog,NEWS,README,BUGS}
 %{pkgdatadir}/gp2c
 %{_mandir}/man1/gp2c*.1*
-
-
-%changelog
-* Fri Aug 17 2012 Paulo Andrade <pcpa@mandriva.com.br> 2.5.2-1
-+ Revision: 815198
-- Update to latest upstream release.
-
-* Thu Jun 14 2012 Andrey Bondrov <abondrov@mandriva.org> 2.5.1-2
-+ Revision: 805709
-- Bump release
-
-  + Alexander Khrukin <akhrukin@mandriva.org>
-    - version update 2.5.1
-
-* Tue Jan 24 2012 Paulo Andrade <pcpa@mandriva.com.br> 2.5.0-1
-+ Revision: 767462
-- Update to latest upstream release
-
-* Fri Mar 04 2011 Paulo Andrade <pcpa@mandriva.com.br> 2.4.3.alpha-2
-+ Revision: 641867
-- Add latest sagemath patches
-
-* Thu Nov 11 2010 Paulo Andrade <pcpa@mandriva.com.br> 2.4.3.alpha-1mdv2011.0
-+ Revision: 595897
-- Update to pari 2.4.3-alpha
-
-* Tue Jul 27 2010 Paulo Andrade <pcpa@mandriva.com.br> 2.3.5-8mdv2011.0
-+ Revision: 560893
-- Use xdg-open in gphelp instead of xdvi
-
-* Wed Feb 10 2010 Funda Wang <fwang@mandriva.org> 2.3.5-7mdv2010.1
-+ Revision: 503562
-- New version 2.3.5
-
-* Wed Feb 10 2010 Funda Wang <fwang@mandriva.org> 2.3.4-6mdv2010.1
-+ Revision: 503558
-- rebuild for new gmp
-
-* Wed Feb 03 2010 Paulo Andrade <pcpa@mandriva.com.br> 2.3.4-5mdv2010.1
-+ Revision: 499828
-- Update to gpc-0.0.5pl9
-- Change from requires to suggests of xdvi
-
-  + Thierry Vignaud <tv@mandriva.org>
-    - rebuild
-
-* Wed Feb 25 2009 Guillaume Rousse <guillomovitch@mandriva.org> 2.3.4-3mdv2009.1
-+ Revision: 344843
-- rebuild against new readline
-
-* Fri Feb 20 2009 Paulo Andrade <pcpa@mandriva.com.br> 2.3.4-2mdv2009.1
-+ Revision: 343068
-- Use gmp instead of builtin math library.
-  gmp is significantly faster for calculations with large numbers.
-  Correct gphelp, that was expecting to find documentation outside
-  %%{_docdir}.
-  xdvi is now required, as it is used to view documentation.
-  xdvi cannot be installed due to bug #48029; as an alternative, temporary
-  solution, it is possible to either use patch in #38016, or set the
-  GPXDVI environment variable (a good option is the okular program).
-
-* Wed Feb 18 2009 Paulo Andrade <pcpa@mandriva.com.br> 2.3.4-1mdv2009.1
-+ Revision: 342731
-- Update to latest upstream release, version 2.3.4
-  o gp2c updated to 0.0.5pl7.
-  o Corrected spec bug that set pari version to gp2c one.
-  o Added extra optional pari data packages to the -data rpm.
-  o Added missing BuildRequires and Requires.
-
-  + Thierry Vignaud <tv@mandriva.org>
-    - rebuild
-    - parallel build is broken
-    - BuildRequires tetex tetex-dvips
-    - rebuild
-    - kill re-definition of %%buildroot on Pixel's request
-
-  + Pixel <pixel@mandriva.com>
-    - do not call ldconfig in %%post/%%postun, it is now handled by filetriggers
-
-  + Olivier Blin <blino@mandriva.org>
-    - restore BuildRoot
-
