@@ -111,6 +111,11 @@ sed -i -e 's|@OPTFLAGS@|%{optflags} -Wall -Wextra -Wstrict-prototypes|' config/g
 # Avoid unwanted rpaths
 sed -i "s|runpathprefix='.*'|runpathprefix=''|" config/get_ld
 
+%ifarch %{ix86}
+# Apparently only required in Mandriva due to 'uname -m' parsing
+ln -s Olinux-i386 Olinux-i686
+%endif
+
 %build
 %define pkgdocdir	%{_docdir}/%{name}
 %define pkgdatadir	%{_datadir}/%{name}-%{pari_version}
