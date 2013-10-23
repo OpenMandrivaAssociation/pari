@@ -1,5 +1,5 @@
-%define	pari_version	2.5.4
-%define	gp2c_version	0.0.7pl5
+%define	pari_version	2.5.5
+%define	gp2c_version	0.0.8
 %define	lib_name_orig	lib%{name}
 %define	lib_major	2
 %define	lib_name	%mklibname %{name} %{lib_major}
@@ -184,7 +184,7 @@ desktop-file-install \
     %{SOURCE7}
 
 %files
-%config(noreplace) %attr(644,root,root) %{_sysconfdir}/gprc
+%config(noreplace) %{_sysconfdir}/gprc
 %{_bindir}/gp-2.5
 %{_bindir}/gp
 %{_bindir}/gphelp
@@ -212,7 +212,7 @@ desktop-file-install \
 %dir %{_libdir}/%{name}-%{pari_version}/*
 
 %files -n gp2c
-%attr(755,root,root) %{_bindir}/gp2c*
+%{_bindir}/gp2c*
 %doc gp2c-%{gp2c_version}/{AUTHORS,ChangeLog,NEWS,README,BUGS}
 %{pkgdatadir}/gp2c
 %{_mandir}/man1/gp2c*.1*

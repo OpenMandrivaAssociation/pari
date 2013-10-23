@@ -1,6 +1,6 @@
 sources:
-  pari-2.5.4.tar.gz: 471226fd86fea0ad1f236249a49bdaee16aa34bf
-  gp2c-0.0.7pl5.tar.gz: 3820ae6a5be1c92691e22f417b4c86888d721b13
+  pari-2.5.5.tar.gz: 77637f935ee4a3b78e7015cef00146bd2f7e96bc
+  gp2c-0.0.8.tar.gz: 683dc916b83d64cc5988c8b40a31aaec19b5c218
   elldata.tgz: 1c4d5aec401c6dcd2cc35be4a1dd09efa7b4e91a
   galdata.tgz: 0fe78ed49e197066708a3fc3753b2651107a1264
   galpol.tgz: 68e249e265bac49b843f9a9a543dc2cb119d8625
