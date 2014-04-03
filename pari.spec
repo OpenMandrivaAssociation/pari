@@ -1,17 +1,17 @@
-%define	pari_version	2.5.5
-%define	gp2c_version	0.0.8
+%define	gp2c_version	0.0.8pl1
 %define	lib_name_orig	lib%{name}
-%define	lib_major	2
+%define	lib_major	4
 %define	lib_name	%mklibname %{name} %{lib_major}
+%define	dev_name	%mklibname -d %{name}
 
 Summary:	PARI/GP - Number Theory-oriented Computer Algebra System
 Name:		pari
-Version:	%{pari_version}
+Version:	2.7.0
 Release:	1
 License:	GPL+
 Group:		Sciences/Mathematics
 URL:		http://pari.math.u-bordeaux.fr/
-Source0:	http://pari.math.u-bordeaux.fr/pub/pari/unix/pari-%{pari_version}.tar.gz
+Source0:	http://pari.math.u-bordeaux.fr/pub/pari/unix/pari-%{version}.tar.gz
 Source1:	http://pari.math.u-bordeaux.fr/pub/pari/packages/elldata.tgz
 Source2:	http://pari.math.u-bordeaux.fr/pub/pari/packages/galdata.tgz
 Source3:	http://pari.math.u-bordeaux.fr/pub/pari/packages/seadata.tgz
@@ -21,10 +21,10 @@ Source6:	http://pari.math.u-bordeaux.fr/pub/pari/GP2C/gp2c-%{gp2c_version}.tar.g
 Source7:        gp.desktop
 Source8:	%{name}.rpmlintrc
 Patch0:         pari-2.5.1-xdgopen.patch
-Patch1:         pari-2.5.1-optflags.patch
-Patch10:        pari-2.5.4-missing-field-init.patch
-Patch11:        pari-2.5.3-declaration-not-prototype.patch
-Patch12:        pari-2.5.2-clobbered.patch
+Patch1:         pari-2.7.0-optflags.patch
+Patch10:        pari-2.7.0-missing-field-init.patch
+Patch11:        pari-2.7.0-declaration-not-prototype.patch
+Patch12:        pari-2.7.0-clobbered.patch
 
 BuildRequires:	perl-devel
 BuildRequires:	gmp-devel
@@ -68,13 +68,14 @@ Provides:	%{lib_name_orig} = %{version}-%{release}
 %description -n	%{lib_name}
 This package contains the libraries needed to run pari.
 
-%package -n	%{lib_name}-devel
+%package -n	%{dev_name}
 Group:		System/Libraries
 Summary:	Development files for PARI shared library
 Requires:	%{lib_name} = %{version}-%{release}
 Provides:	%{lib_name_orig}-devel = %{version}-%{release}
+Obsoletes:	%{_lib}%{name}2-devel <= %{version}-%{release}
 
-%description -n %{lib_name}-devel
+%description -n %{dev_name}
 This package contains the header files needed to develop
 applications using pari.
 
@@ -118,7 +119,7 @@ ln -s Olinux-i386 Olinux-i686
 
 %build
 %define pkgdocdir	%{_docdir}/%{name}
-%define pkgdatadir	%{_datadir}/%{name}-%{pari_version}
+%define pkgdatadir	%{_datadir}/%{name}
 
 # Using --libdir to properly link with newer interface
 # Using --disable-tls for safety due to other packages linked to pari
@@ -126,7 +127,7 @@ sh Configure						\
 	--prefix=%{_prefix}				\
 	--includedir=%{_includedir}/%{name}		\
 	--datadir=%{pkgdatadir}/data			\
-	--sysdatadir=%{_libdir}/%{name}-%{pari_version}	\
+	--sysdatadir=%{_libdir}/%{name}			\
 	--share-prefix=%{_datadir}			\
 	--host=%{_arch}-%{_os}				\
 	--graphic=X11					\
@@ -183,9 +184,15 @@ desktop-file-install \
     --dir %{buildroot}%{_datadir}/applications \
     %{SOURCE7}
 
+%if 0
+%check
+export GP_DATA_DIR=$PWD/data
+make test-all
+%endif
+
 %files
 %config(noreplace) %{_sysconfdir}/gprc
-%{_bindir}/gp-2.5
+%{_bindir}/gp-2.7
 %{_bindir}/gp
 %{_bindir}/gphelp
 %{_bindir}/tex2mail
@@ -193,23 +200,21 @@ desktop-file-install \
 %{_mandir}/man1/gp.1*
 %{_mandir}/man1/gp-*.1*
 %{_mandir}/man1/gphelp.1*
-%doc AUTHORS CHANGES COMPAT MACHINES README
+%doc AUTHORS CHANGES* COMPAT MACHINES README
 %dir %{pkgdatadir}
 %{pkgdatadir}/doc
 %{_datadir}/applications/gp.desktop
 
 %files data
-%dir %{pkgdatadir}/data
-%{pkgdatadir}/data/*
+%{pkgdatadir}/data
 
 %files -n %{lib_name}
 %{_libdir}/*.so.*
 
-%files -n %{lib_name}-devel
+%files -n %{dev_name}
 %{_includedir}/%{name}
 %{_libdir}/*.so
-%dir %{_libdir}/%{name}-%{pari_version}
-%dir %{_libdir}/%{name}-%{pari_version}/*
+%{_libdir}/%{name}
 
 %files -n gp2c
 %{_bindir}/gp2c*

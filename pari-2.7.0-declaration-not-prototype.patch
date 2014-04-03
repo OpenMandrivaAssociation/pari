@@ -1,6 +1,28 @@
+--- src/basemath/base5.c
++++ src/basemath/base5.c
+@@ -374,7 +374,7 @@ rnfprincipaltohnf(GEN rnf,GEN x)
+ 
+ /* pseudo-basis for the 0 ideal */
+ static GEN
+-rnfideal0() { retmkvec2(cgetg(1,t_MAT),cgetg(1,t_VEC)); }
++rnfideal0(void) { retmkvec2(cgetg(1,t_MAT),cgetg(1,t_VEC)); }
+ 
+ GEN
+ rnfidealhnf(GEN rnf, GEN x)
+--- src/graph/rect.h
++++ src/graph/rect.h
+@@ -281,7 +281,7 @@ void  rectclip(long rect);
+ void gen_rectdraw0(struct plot_eng *eng, long *w, long *x, long *y, long lw, double xs, double ys);
+ 
+ /* architecture-dependent plot file (plotX.c ...) */
+-void  PARI_get_plot();
++void  PARI_get_plot(void);
+ void  rectdraw0(long *w, long *x, long *y, long lw);
+ 
+ ENDEXTERN
 --- src/language/eval.c
 +++ src/language/eval.c
-@@ -1079,11 +1079,11 @@
+@@ -1143,11 +1143,11 @@ closure_eval(GEN C)
          break;
        }
  
@@ -15,7 +37,7 @@
      case 2: sp-=2; f(st[sp],st[sp+1]); break; \
      case 3: sp-=3; f(st[sp],st[sp+1],st[sp+2]); break; \
      case 4: sp-=4; f(st[sp],st[sp+1],st[sp+2],st[sp+3]); break; \
-@@ -1114,7 +1114,12 @@
+@@ -1178,7 +1178,12 @@ closure_eval(GEN C)
          GEN res;
          /* Macro Madness : evaluate function ep->value on arguments
           * st[sp-ep->arity .. sp]. Set res = result. */
@@ -29,7 +51,7 @@
          if (br_status) goto endeval;
          gel(st,sp++)=res;
          break;
-@@ -1133,7 +1138,12 @@
+@@ -1197,7 +1202,12 @@ closure_eval(GEN C)
        {
          entree *ep = (entree *)operand;
          long res;
@@ -43,7 +65,7 @@
          if (br_status) goto endeval;
          st[sp++] = res;
          break;
-@@ -1142,7 +1152,12 @@
+@@ -1206,7 +1216,12 @@ closure_eval(GEN C)
        {
          entree *ep = (entree *)operand;
          long res;
@@ -57,7 +79,7 @@
          if (br_status) goto endeval;
          st[sp++] = res;
          break;
-@@ -1150,11 +1165,18 @@
+@@ -1214,11 +1229,18 @@ closure_eval(GEN C)
      case OCcallvoid:
        {
          entree *ep = (entree *)operand;
