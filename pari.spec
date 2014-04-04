@@ -125,7 +125,7 @@ ln -s Olinux-i386 Olinux-i686
 # Using --disable-tls for safety due to other packages linked to pari
 sh Configure						\
 	--prefix=%{_prefix}				\
-	--includedir=%{_includedir}/%{name}		\
+	--includedir=%{_includedir}			\
 	--datadir=%{pkgdatadir}/data			\
 	--sysdatadir=%{_libdir}/%{name}			\
 	--share-prefix=%{_datadir}			\
@@ -184,11 +184,9 @@ desktop-file-install \
     --dir %{buildroot}%{_datadir}/applications \
     %{SOURCE7}
 
-%if 0
 %check
 export GP_DATA_DIR=$PWD/data
 make test-all
-%endif
 
 %files
 %config(noreplace) %{_sysconfdir}/gprc
