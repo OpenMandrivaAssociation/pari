@@ -1,13 +1,13 @@
 %define	gp2c_version	0.0.8pl1
 %define	lib_name_orig	lib%{name}
-%define	lib_major	4
+%define	lib_major	5
 %define	lib_name	%mklibname %{name} %{lib_major}
 %define	dev_name	%mklibname -d %{name}
 
 Summary:	PARI/GP - Number Theory-oriented Computer Algebra System
 Name:		pari
-Version:	2.7.0
-Release:	2
+Version:	2.9.1
+Release:	1
 License:	GPL+
 Group:		Sciences/Mathematics
 URL:		http://pari.math.u-bordeaux.fr/
@@ -21,10 +21,10 @@ Source6:	http://pari.math.u-bordeaux.fr/pub/pari/GP2C/gp2c-%{gp2c_version}.tar.g
 Source7:        gp.desktop
 Source8:	%{name}.rpmlintrc
 Patch0:         pari-2.5.1-xdgopen.patch
-Patch1:         pari-2.7.0-optflags.patch
-Patch10:        pari-2.7.0-missing-field-init.patch
-Patch11:        pari-2.7.0-declaration-not-prototype.patch
-Patch12:        pari-2.7.0-clobbered.patch
+Patch1:         pari-2.9.0-optflags.patch
+Patch10:        pari-2.9.0-missing-field-init.patch
+Patch11:        pari-2.9.0-declaration-not-prototype.patch
+Patch12:        pari-2.9.0-clobbered.patch
 
 BuildRequires:	perl-devel
 BuildRequires:	gmp-devel
@@ -32,7 +32,7 @@ BuildRequires:	pkgconfig(x11)
 BuildRequires:	readline-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	texlive
-BuildRequires:	emacs
+#BuildRequires:	emacs
 Requires:	perl
 Requires:	xdg-utils
 
@@ -190,7 +190,7 @@ make test-all
 
 %files
 %config(noreplace) %{_sysconfdir}/gprc
-%{_bindir}/gp-2.7
+%{_bindir}/gp-2.9
 %{_bindir}/gp
 %{_bindir}/gphelp
 %{_bindir}/tex2mail
@@ -207,7 +207,8 @@ make test-all
 %{pkgdatadir}/data
 
 %files -n %{lib_name}
-%{_libdir}/*.so.*
+%{_libdir}/*.so.%{lib_major}
+%{_libdir}/*.so.2.9.1
 
 %files -n %{dev_name}
 %{_includedir}/%{name}

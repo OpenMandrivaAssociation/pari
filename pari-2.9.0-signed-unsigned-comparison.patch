@@ -1,0 +1,22 @@
+--- src/basemath/arith1.c
++++ src/basemath/arith1.c
+@@ -3186,7 +3186,7 @@ GEN
+ Fp_order(GEN a, GEN o, GEN p) {
+   if (lgefint(p) == 3 && (!o || typ(o) == t_INT))
+   {
+-    ulong pp = p[2], oo = (o && lgefint(o)==3)? o[2]: pp-1;
++    ulong pp = p[2], oo = (o && lgefint(o)==3)? (ulong)(o[2]): pp-1;
+     return utoi( Fl_order(umodiu(a, pp), oo, pp) );
+   }
+   return gen_order(a, o, (void*)p, &Fp_star);
+--- src/basemath/hyperell.c
++++ src/basemath/hyperell.c
+@@ -712,7 +712,7 @@ Flx_genus2charpoly_naive(GEN H, ulong p)
+     {
+       GEN r2 = gel(V, n+1);
+       c += uel(r2,2) ?
+-        (uel(r2,1) ? k[1+Fl2_norm_pre(r2, D, p, pi)]: e)
++        (uel(r2,1) ? (ulong)(k[1+Fl2_norm_pre(r2, D, p, pi)]): e)
+          : !!uel(r2,1);
+       if (i == p-1) break;
+       V = Fl2V_next(V, p);
