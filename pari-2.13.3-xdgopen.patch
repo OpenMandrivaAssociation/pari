@@ -1,0 +1,14 @@
+--- a/doc/gphelp.in
++++ b/doc/gphelp.in
+@@ -43,8 +43,8 @@
+ #
+ $wwwsite= "http://pari.math.u-bordeaux.fr/";
+ 
+-$xdvi = $ENV{GPXDVI} || "xdvi";
+-$xdviref = $ENV{GPXDVIREF} || "$xdvi -paper 29.7x21cm";
++$xdvi = $ENV{GPXDVI} || "xdg-open";
++$xdviref = $ENV{GPXDVIREF} || "$xdvi";
+ $gzip = "gzip";
+ $zcat = "$gzip -dc";
+ $bzip = "bzip2";
+
