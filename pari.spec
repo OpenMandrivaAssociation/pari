@@ -3,6 +3,7 @@
 %define	lib_name	%mklibname %{name} %{lib_major}
 %define	dev_name	%mklibname -d %{name}
 
+%define	shortver	%(echo %version | cut -d\. -f 1,2)
 %define	gp2c_version	0.0.12
 
 Summary:	PARI/GP - Number Theory-oriented Computer Algebra System
@@ -56,7 +57,7 @@ calculator PARI/GP is in package pari-gp.
 
 %files
 %config(noreplace) %{_sysconfdir}/gprc
-%{_bindir}/gp-2.9
+%{_bindir}/gp-%{shortver}
 %{_bindir}/gp
 %{_bindir}/gphelp
 %{_bindir}/tex2mail
@@ -64,7 +65,7 @@ calculator PARI/GP is in package pari-gp.
 %{_mandir}/man1/gp.1*
 %{_mandir}/man1/gp-*.1*
 %{_mandir}/man1/gphelp.1*
-%doc AUTHORS CHANGES* COMPAT MACHINES README
+%doc AUTHORS CHANGES* COMPAT README
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/doc
 %{_datadir}/applications/gp.desktop
@@ -86,7 +87,12 @@ needed by ellsearch and ellidentify.
 tables (errors fixed, 1/10th the size, easier to use).
 
 %files data
-%{_datadir}/%{name}/data
+%{_datadir}/%{name}/elldata
+%{_datadir}/%{name}/galdata
+%{_datadir}/%{name}/galpol
+%{_datadir}/%{name}/nftables
+%{_datadir}/%{name}/seadata
+
 
 #-----------------------------------------------------------------------
 
@@ -203,12 +209,12 @@ popd
 
 %install
 # pari, libpari & libpari-devel
-export DESTDIR="%{buildroot}"
+#export DESTDIR="%{buildroot}"
 make install \
-	INSTALL="install -p" STRIP=%{_bindir}/true \
-	READMEDIR='$(DESTDIR)'%{_docdir}/%{name} \
-	LIBDIR='$(DESTDIR)'%{_libdir} 			 \
-	DOCDIR='$(DESTDIR)'%{_docdir}/%{name}
+	INSTALL="install -p" \
+	READMEDIR=%{buildroot}%{_docdir}/%{name} \
+	LIBDIR=%{buildroot}%{_libdir} 			 \
+	DOCDIR=%{buildroot}%{_docdir}/%{name}
 
 # gp2c
 pushd gp2c-%{gp2c_version}
@@ -250,4 +256,4 @@ desktop-file-install \
 
 %check
 export GP_DATA_DIR=$PWD/data
-make test-all
+#make test-all
