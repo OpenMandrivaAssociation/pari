@@ -209,7 +209,7 @@ popd
 
 %install
 # pari, libpari & libpari-devel
-#export DESTDIR="%{buildroot}"
+export DESTDIR="%{buildroot}"
 make install \
 	INSTALL="install -p" \
 	READMEDIR=%{buildroot}%{_docdir}/%{name} \
