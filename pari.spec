@@ -1,5 +1,5 @@
-%define	lib_name_orig	lib%{name}
-%define	lib_major	5
+%define	lib_oname	lib%{name}
+%define	lib_major	7
 %define	lib_name	%mklibname %{name} %{lib_major}
 %define	dev_name	%mklibname -d %{name}
 
@@ -20,12 +20,14 @@ Source3:	http://pari.math.u-bordeaux.fr/pub/pari/packages/galdata.tgz
 Source4:	http://pari.math.u-bordeaux.fr/pub/pari/packages/seadata.tgz
 Source5:	http://pari.math.u-bordeaux.fr/pub/pari/packages/nftables.tgz
 Source6:	http://pari.math.u-bordeaux.fr/pub/pari/packages/galpol.tgz
-Source7:	gp.desktop
+Source7:	pari-gp.xpm
 Source8:	%{name}.rpmlintrc
 # Use xdg-open rather than xdvi to display DVI files (#530565)
 Patch0:		pari-2.13.3-xdgopen.patch
 # Use our optflags, not upstream's
 Patch1:		pari-2.13.3-optflags.patch
+# Fix docs path
+Patch2:		pari-2.13.3-gp2c_doc.patch
 # Use bsdtar style
 Patch100:	pari-2.13.3-fix_install_use_bsdtar_style.patch
 # Fix compiler warnings
@@ -37,6 +39,7 @@ Patch12:	pari-2.13.3-clobbered.patch
 BuildRequires:	perl-devel
 BuildRequires:	fltk-devel
 BuildRequires:	gmp-devel
+BuildRequires:	imagemagick
 BuildRequires:	pkgconfig(ncurses)
 BuildRequires:	pkgconfig(readline)
 BuildRequires:	pkgconfig(x11)
@@ -65,10 +68,21 @@ calculator PARI/GP is in package pari-gp.
 %{_mandir}/man1/gp.1*
 %{_mandir}/man1/gp-*.1*
 %{_mandir}/man1/gphelp.1*
-%doc AUTHORS CHANGES* COMPAT README
 %dir %{_datadir}/%{name}
-%{_datadir}/%{name}/doc
-%{_datadir}/applications/gp.desktop
+%{_datadir}/%{name}/examples/
+%{_datadir}/%{name}/misc
+%{_datadir}/%{name}/PARI
+%{_datadir}/%{name}/pari.desc
+%exclude %{_datadir}/%{name}/elldata
+%exclude %{_datadir}/%{name}/galdata
+%exclude %{_datadir}/%{name}/galpol
+%exclude %{_datadir}/%{name}/nftables
+%exclude %{_datadir}/%{name}/seadata
+%{_iconsdir}/hicolor/*/apps/%{name}-gp.png
+%{_datadir}/pixmaps/%{name}-gp.xpm
+%{_datadir}/applications/openmandriva-%{name}.desktop
+%{_docdir}/%{name}
+%doc AUTHORS CHANGES* COMPAT README
 
 #-----------------------------------------------------------------------
 
@@ -93,20 +107,19 @@ tables (errors fixed, 1/10th the size, easier to use).
 %{_datadir}/%{name}/nftables
 %{_datadir}/%{name}/seadata
 
-
 #-----------------------------------------------------------------------
 
 %package -n	%{lib_name}
 Group:		System/Libraries
 Summary:	Shared PARI library
-Provides:	%{lib_name_orig} = %{version}-%{release}
+Provides:	%{lib_oname} = %{version}-%{release}
 
 %description -n	%{lib_name}
 This package contains the libraries needed to run pari.
 
 %files -n %{lib_name}
 %{_libdir}/*.so.%{lib_major}
-%{_libdir}/*.so.2.9.1
+%{_libdir}/*.so.%{version}
 
 #-----------------------------------------------------------------------
 
@@ -114,7 +127,7 @@ This package contains the libraries needed to run pari.
 Group:		System/Libraries
 Summary:	Development files for PARI shared library
 Requires:	%{lib_name} = %{version}-%{release}
-Provides:	%{lib_name_orig}-devel = %{version}-%{release}
+Provides:	%{lib_oname}-devel = %{version}-%{release}
 Obsoletes:	%{_lib}%{name}2-devel <= %{version}-%{release}
 
 %description -n %{dev_name}
@@ -143,15 +156,20 @@ environment.
 
 %files -n gp2c
 %{_bindir}/gp2c*
-%doc gp2c-%{gp2c_version}/{AUTHORS,ChangeLog,NEWS,README,BUGS}
 %{_datadir}/%{name}/gp2c
+%{_datadir}/%{name}/doc
 %{_mandir}/man1/gp2c*.1*
+%{_docdir}/gp2c/gp2c.{dvi,html,pdf}
+%{_docdir}/gp2c/gp2c001.png
+%{_docdir}/gp2c/type.{dvi,html,pdf}
+%{_docdir}/gp2c/type001.png
+%doc gp2c-%{gp2c_version}/{AUTHORS,ChangeLog,NEWS,README,BUGS}
 
 #-----------------------------------------------------------------------
 
 %prep
-%autosetup -p1
-tar -xf %{SOURCE1}
+%autosetup -a1 -p1
+#tar -xf %{SOURCE1}
 tar -xf %{SOURCE2}
 tar -xf %{SOURCE3}
 tar -xf %{SOURCE4}
@@ -193,6 +211,7 @@ ln -s Olinux-i386 Olinux-i686
 	--enable-tls \
 	--with-fltk \
 	--with-gmp
+
 %make_build gp bench # docpdf
 
 # gp2c
@@ -200,9 +219,6 @@ pushd gp2c-%{gp2c_version}
 %configure \
 	--datadir=%{_datadir}/%{name} \
 	--with-paricfg=../Olinux-%{_arch}/pari.cfg
-
-# FIXME just satisfy build dependency
-ln -sf ../config/missing desc
 
 %make_build
 popd
@@ -213,7 +229,7 @@ export DESTDIR="%{buildroot}"
 make install \
 	INSTALL="install -p" \
 	READMEDIR=%{buildroot}%{_docdir}/%{name} \
-	LIBDIR=%{buildroot}%{_libdir} 			 \
+	LIBDIR=%{buildroot}%{_libdir} \
 	DOCDIR=%{buildroot}%{_docdir}/%{name}
 
 # gp2c
@@ -245,15 +261,38 @@ rm -f %{_docdir}/%{name}/%{name}/Makefile
 
 # gphelp wants docs in %{_datadir}/%{name}/data/doc (removing the /data/ requirement)
 ln -sf %{_docdir}/%{name} %{buildroot}%{_datadir}/%{name}/doc
-perl -pi -e 's@%{_datadir}/%{name}/data@%{_datadir}/%{name}@;'		\
-	%{buildroot}/%{_bindir}/gphelp
+sed -i -e 's@%{_datadir}/%{name}/data@%{_datadir}/%{name}@;' %{buildroot}/%{_bindir}/gphelp
 
-# Desktop menu entry
-mkdir -p %{buildroot}%{_datadir}/applications
-desktop-file-install \
-	--dir %{buildroot}%{_datadir}/applications \
-	%{SOURCE7}
+# icons
+for d in 16 32 48 64 72 128 256
+do
+	install -dm 0755 %{buildroot}%{_iconsdir}/hicolor/${d}x${d}/apps/
+	convert -background none -size "${d}x${d}" \
+		%{SOURCE7} \
+		%{buildroot}%{_iconsdir}/hicolor/${d}x${d}/apps/%{name}-gp.png
+done
+install -dm 0755 %{buildroot}%{_datadir}/pixmaps/
+install -pm 0755 %{SOURCE7} %{buildroot}%{_datadir}/pixmaps/%{name}-gp.xpm
+
+# .desktop file
+install -dm 0755 %{buildroot}%{_datadir}/applications/
+cat > %{buildroot}%{_datadir}/applications/openmandriva-%{name}.desktop << EOF
+[Desktop Entry]
+Name=PARI/GP
+Comment="Programmable calculator based on PARI"
+Exec=gp
+Icon=%{name}-gp
+Terminal=true
+Type=Application
+Categories=Application;Education;Science;Math;
+Encoding=UTF-8
+StartupNotify=false
+X-Vendor=OpenMandriva
+EOF
 
 %check
 export GP_DATA_DIR=$PWD/data
-#make test-all
+make test-all
+
+# .desktop
+desktop-file-validate %{buildroot}%{_datadir}/applications/openmandriva-%{name}.desktop

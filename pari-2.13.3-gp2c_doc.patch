@@ -1,0 +1,18 @@
+--- a/gp2c-0.0.12/doc/Makefile.am
++++ b/gp2c-0.0.12/doc/Makefile.am
+@@ -35,12 +35,12 @@
+ 	gzip -c gp2c.ps > gp2c.ps.gz
+ 	gzip -c type.ps > type.ps.gz
+ install-data-local:
+-	$(INSTALL) -d $(DESTDIR)$(docdir)
++	$(INSTALL) -d $(DESTDIR)$(docdir)/gp2c
+ 	for i in $(GP2C_DOC) $(TYPE_DOC) $(PDF_DOC); do \
+ 	  if test -f $(srcdir)/$$i; then \
+-            $(INSTALL_DATA) $(srcdir)/$$i $(DESTDIR)$(docdir); \
++            $(INSTALL_DATA) $(srcdir)/$$i $(DESTDIR)$(docdir)/gp2c; \
+ 	  fi \
+ 	done;
+ 
+ uninstall-local:
+-	rm -r $(DESTDIR)$(docdir)
++	rm -r $(DESTDIR)$(docdir)/gp2c
