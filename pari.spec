@@ -84,7 +84,7 @@ calculator PARI/GP is in package pari-gp.
 %{_iconsdir}/hicolor/*/apps/%{name}-gp.png
 %{_datadir}/pixmaps/%{name}-gp.xpm
 %{_datadir}/applications/openmandriva-%{name}.desktop
-#{_docdir}/%{name}
+%{_docdir}/%{name}/*
 
 #-----------------------------------------------------------------------
 
