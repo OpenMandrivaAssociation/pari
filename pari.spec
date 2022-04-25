@@ -1,3 +1,5 @@
+%define _disable_lto 1
+
 %define	lib_oname	lib%{name}
 %define	lib_major	7
 %define	lib_name	%mklibname %{name} %{lib_major}
@@ -8,18 +10,18 @@
 
 Summary:	PARI/GP - Number Theory-oriented Computer Algebra System
 Name:		pari
-Version:	2.13.3
+Version:	2.13.4
 Release:	1
 License:	GPL+
 Group:		Sciences/Mathematics
-URL:		http://pari.math.u-bordeaux.fr/
-Source0:	http://pari.math.u-bordeaux.fr/pub/pari/unix/pari-%{version}.tar.gz
-Source1:	http://pari.math.u-bordeaux.fr/pub/pari/GP2C/gp2c-%{gp2c_version}.tar.gz
-Source2:	http://pari.math.u-bordeaux.fr/pub/pari/packages/elldata.tgz
-Source3:	http://pari.math.u-bordeaux.fr/pub/pari/packages/galdata.tgz
-Source4:	http://pari.math.u-bordeaux.fr/pub/pari/packages/seadata.tgz
-Source5:	http://pari.math.u-bordeaux.fr/pub/pari/packages/nftables.tgz
-Source6:	http://pari.math.u-bordeaux.fr/pub/pari/packages/galpol.tgz
+URL:		https://pari.math.u-bordeaux.fr/
+Source0:	https://pari.math.u-bordeaux.fr/pub/pari/unix/pari-%{version}.tar.gz
+Source1:	https://pari.math.u-bordeaux.fr/pub/pari/GP2C/gp2c-%{gp2c_version}.tar.gz
+Source2:	https://pari.math.u-bordeaux.fr/pub/pari/packages/elldata.tgz
+Source3:	https://pari.math.u-bordeaux.fr/pub/pari/packages/galdata.tgz
+Source4:	https://pari.math.u-bordeaux.fr/pub/pari/packages/seadata.tgz
+Source5:	https://pari.math.u-bordeaux.fr/pub/pari/packages/nftables.tgz
+Source6:	https://pari.math.u-bordeaux.fr/pub/pari/packages/galpol.tgz
 Source7:	pari-gp.xpm
 Source8:	%{name}.rpmlintrc
 # Use xdg-open rather than xdvi to display DVI files (#530565)
@@ -168,7 +170,7 @@ environment.
 #-----------------------------------------------------------------------
 
 %prep
-%autosetup -a1 -p1
+%autosetup -p1 -a1
 #tar -xf %{SOURCE1}
 tar -xf %{SOURCE2}
 tar -xf %{SOURCE3}
@@ -180,7 +182,7 @@ tar -xf %{SOURCE6}
 mv -f nftables data
 
 # Use our optflags, not upstream's (patch1)
-sed -i -e 's|@OPTFLAGS@|%{optflags} -Wall -Wextra -Wstrict-prototypes|' config/get_cc
+sed -i -e 's|@OPTFLAGS@|%{optflags} -Wall -Wextra -Wstrict-prototypes -Wno-implicit-fallthrough|' config/get_cc
 
 # Avoid unwanted rpaths
 sed -i "s|runpathprefix='.*'|runpathprefix=''|" config/get_ld
@@ -192,6 +194,9 @@ ln -s Olinux-i386 Olinux-i686
 
 %build
 %setup_compile_flags
+export CPPFLAGS=$CXXFLAGS
+export OPTFLAGS=%{optflgs}
+
 # Using --libdir to properly link with newer interface
 # Using --disable-tls for safety due to other packages linked to pari
 # (fedora)
@@ -226,7 +231,7 @@ popd
 %install
 # pari, libpari & libpari-devel
 export DESTDIR="%{buildroot}"
-make install \
+%make_install \
 	INSTALL="install -p" \
 	READMEDIR=%{buildroot}%{_docdir}/%{name} \
 	LIBDIR=%{buildroot}%{_libdir} \
@@ -296,3 +301,4 @@ make test-all
 
 # .desktop
 desktop-file-validate %{buildroot}%{_datadir}/applications/openmandriva-%{name}.desktop
+
