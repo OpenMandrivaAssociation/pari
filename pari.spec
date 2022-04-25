@@ -217,7 +217,7 @@ export OPTFLAGS=%{optflgs}
 	--with-fltk \
 	--with-gmp
 
-%make_build gp bench # docpdf
+%make_build gp # bench # docpdf
 
 # gp2c
 pushd gp2c-%{gp2c_version}
