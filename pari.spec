@@ -61,6 +61,7 @@ This package contains the shared libraries. The interactive
 calculator PARI/GP is in package pari-gp.
 
 %files
+%doc AUTHORS CHANGES* COMPAT README
 %config(noreplace) %{_sysconfdir}/gprc
 %{_bindir}/gp-%{shortver}
 %{_bindir}/gp
@@ -83,8 +84,7 @@ calculator PARI/GP is in package pari-gp.
 %{_iconsdir}/hicolor/*/apps/%{name}-gp.png
 %{_datadir}/pixmaps/%{name}-gp.xpm
 %{_datadir}/applications/openmandriva-%{name}.desktop
-%{_docdir}/%{name}
-%doc AUTHORS CHANGES* COMPAT README
+#{_docdir}/%{name}
 
 #-----------------------------------------------------------------------
 
