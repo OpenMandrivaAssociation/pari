@@ -1,9 +1,10 @@
 %define _disable_lto 1
 
-%define	lib_oname	lib%{name}
-%define	lib_major	8
-%define	lib_name	%mklibname %{name} %{lib_major}
-%define	dev_name	%mklibname -d %{name}
+%define	liboname	lib%{name}
+%define	major	8
+%define	libname	%mklibname %{name}
+%define	devname	%mklibname %{name} -d
+%define	oldlibname	%mklibname %{name} %{major}
 
 %define	shortver	%(echo %version | cut -d\. -f 1,2)
 %define	gp2c_version	0.0.12
@@ -111,32 +112,34 @@ tables (errors fixed, 1/10th the size, easier to use).
 
 #-----------------------------------------------------------------------
 
-%package -n	%{lib_name}
+%package -n	%{libname}
 Group:		System/Libraries
 Summary:	Shared PARI library
-Provides:	%{lib_oname} = %{version}-%{release}
+Provides:	%{liboname} = %{version}-%{release}
+# Intentionally unversioned, because libname should not contain version number
+Obsoletes:	%{oldlibname}
 
-%description -n	%{lib_name}
+%description -n	%{libname}
 This package contains the libraries needed to run pari.
 
-%files -n %{lib_name}
-%{_libdir}/*.so.%{lib_major}
+%files -n %{libname}
+%{_libdir}/*.so.%{major}
 %{_libdir}/*.so.%{version}
 
 #-----------------------------------------------------------------------
 
-%package -n	%{dev_name}
+%package -n	%{devname}
 Group:		System/Libraries
 Summary:	Development files for PARI shared library
-Requires:	%{lib_name} = %{version}-%{release}
-Provides:	%{lib_oname}-devel = %{version}-%{release}
+Requires:	%{libname} = %{version}-%{release}
+Provides:	%{liboname}-devel = %{version}-%{release}
 Obsoletes:	%{_lib}%{name}2-devel <= %{version}-%{release}
 
-%description -n %{dev_name}
+%description -n %{devname}
 This package contains the header files needed to develop
 applications using pari.
 
-%files -n %{dev_name}
+%files -n %{devname}
 %{_includedir}/%{name}
 %{_libdir}/*.so
 %{_libdir}/%{name}
