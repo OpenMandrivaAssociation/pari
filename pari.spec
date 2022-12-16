@@ -1,7 +1,7 @@
 %define _disable_lto 1
 
 %define	lib_oname	lib%{name}
-%define	lib_major	7
+%define	lib_major	8
 %define	lib_name	%mklibname %{name} %{lib_major}
 %define	dev_name	%mklibname -d %{name}
 
@@ -10,7 +10,7 @@
 
 Summary:	PARI/GP - Number Theory-oriented Computer Algebra System
 Name:		pari
-Version:	2.13.4
+Version:	2.15.1
 Release:	1
 License:	GPL+
 Group:		Sciences/Mathematics
@@ -35,7 +35,7 @@ Patch100:	pari-2.13.3-fix_install_use_bsdtar_style.patch
 # Fix compiler warnings
 # http://pari.math.u-bordeaux.fr/cgi-bin/bugreport.cgi?bug=1316
 Patch10:	pari-2.13.3-missing-field-init.patch
-Patch11:	pari-2.13.3-declaration-not-prototype.patch
+#Patch11:	pari-2.13.3-declaration-not-prototype.patch
 Patch12:	pari-2.13.3-clobbered.patch
 
 BuildRequires:	perl-devel

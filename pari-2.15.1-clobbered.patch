@@ -36,11 +36,11 @@
 --- a/src/headers/paripriv.h
 +++ b/src/headers/paripriv.h
 @@ -532,7 +532,7 @@ void pari_thread_init_varstate();
- 
  /* parinf.h */
  
--GEN fincke_pohst(GEN a,GEN BOUND,long stockmax,long PREC, FP_chk_fun *CHECK);
-+GEN fincke_pohst(GEN a,GEN BOUND,const long stockmax,long PREC, FP_chk_fun *CHECK);
+ GEN  coltoalg(GEN nf,GEN x);
+-GEN  fincke_pohst(GEN a,GEN BOUND,long stockmax,long PREC, FP_chk_fun *CHECK);
++GEN  fincke_pohst(GEN a,GEN BOUND,const long stockmax,long PREC, FP_chk_fun *CHECK);
  void init_zlog(zlog_S *S, GEN bid);
  GEN  log_gen_arch(zlog_S *S, long index);
  GEN  log_gen_pr(zlog_S *S, long index, GEN nf, long e);
@@ -57,16 +57,15 @@
    VOLATILE long c = 0;
 --- a/src/modules/stark.c
 +++ b/src/modules/stark.c
-@@ -2788,9 +2788,10 @@ quadray_init(GEN *pD, GEN f, GEN *pbnf,
+@@ -2788,8 +2788,9 @@ quadray_init(GEN *pD, GEN f, GEN *pbnf,
  /* compute the polynomial over Q of the Hilbert class field of
     Q(sqrt(D)) where D is a positive fundamental discriminant */
  static GEN
 -quadhilbertreal(GEN D, long prec)
 +quadhilbertreal(GEN D, long baseprec)
  {
-   pari_sp av = avma;
 +  VOLATILE long prec = baseprec;
-   GEN bnf, pol, bnr, dtQ, data, M;
+   GEN bnf, bnr, dtQ, data, M;
    long newprec;
    pari_timer T;
 
