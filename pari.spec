@@ -36,7 +36,7 @@ Patch100:	pari-2.13.3-fix_install_use_bsdtar_style.patch
 # http://pari.math.u-bordeaux.fr/cgi-bin/bugreport.cgi?bug=1316
 Patch10:	pari-2.13.3-missing-field-init.patch
 #Patch11:	pari-2.13.3-declaration-not-prototype.patch
-Patch12:	pari-2.13.3-clobbered.patch
+Patch12:	pari-2.15.1-clobbered.patch
 
 BuildRequires:	perl-devel
 BuildRequires:	fltk-devel
