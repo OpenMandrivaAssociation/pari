@@ -1,5 +1,5 @@
---- a/gp2c-0.0.12/doc/Makefile.am
-+++ b/gp2c-0.0.12/doc/Makefile.am
+--- a/gp2c-0.0.13/doc/Makefile.am
++++ b/gp2c-0.0.13/doc/Makefile.am
 @@ -35,12 +35,12 @@
  	gzip -c gp2c.ps > gp2c.ps.gz
  	gzip -c type.ps > type.ps.gz
