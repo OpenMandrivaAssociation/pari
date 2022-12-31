@@ -197,8 +197,10 @@ ln -s Olinux-i386 Olinux-i686
 
 %build
 %setup_compile_flags
+export CFLAGS="%{optflgs} -fPIC"
+export CXXFLAGS="%{optflgs} -fPIC"
 export CPPFLAGS=$CXXFLAGS
-export OPTFLAGS="%{optflgs} -fPIC"
+export OPTFLAGS="%{optflgs}"
 
 # Using --libdir to properly link with newer interface
 # Using --disable-tls for safety due to other packages linked to pari
