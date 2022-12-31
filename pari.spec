@@ -11,7 +11,7 @@
 
 Summary:	PARI/GP - Number Theory-oriented Computer Algebra System
 Name:		pari
-Version:	2.15.1
+Version:	2.15.2
 Release:	1
 License:	GPL+
 Group:		Sciences/Mathematics
