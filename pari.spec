@@ -7,7 +7,7 @@
 %define	oldlibname	%mklibname %{name} %{major}
 
 %define	shortver	%(echo %version | cut -d\. -f 1,2)
-%define	gp2c_version	0.0.12
+%define	gp2c_version	0.0.13
 
 Summary:	PARI/GP - Number Theory-oriented Computer Algebra System
 Name:		pari
