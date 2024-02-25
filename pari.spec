@@ -1,7 +1,8 @@
 %define _disable_lto 1
 
-%define	liboname	lib%{name}
+
 %define	major	8
+%define	liboname	lib%{name}
 %define	libname	%mklibname %{name}
 %define	devname	%mklibname %{name} -d
 %define	oldlibname	%mklibname %{name} %{major}
@@ -11,7 +12,7 @@
 
 Summary:	PARI/GP - Number Theory-oriented Computer Algebra System
 Name:		pari
-Version:	2.15.4
+Version:	2.15.5
 Release:	1
 License:	GPL+
 Group:		Sciences/Mathematics
@@ -117,7 +118,7 @@ Group:		System/Libraries
 Summary:	Shared PARI library
 Provides:	%{liboname} = %{version}-%{release}
 # Intentionally unversioned, because libname should not contain version number
-Obsoletes:	%{oldlibname}
+Obsoletes:	%{oldlibname} < %{ERVD}
 
 %description -n	%{libname}
 This package contains the libraries needed to run pari.
@@ -133,7 +134,7 @@ Group:		System/Libraries
 Summary:	Development files for PARI shared library
 Requires:	%{libname} = %{version}-%{release}
 Provides:	%{liboname}-devel = %{version}-%{release}
-Obsoletes:	%{_lib}%{name}2-devel <= %{version}-%{release}
+Obsoletes:	%{_lib}%{name}2-devel <= %{EVRD}
 
 %description -n %{devname}
 This package contains the header files needed to develop
