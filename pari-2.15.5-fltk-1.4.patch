@@ -1,0 +1,12 @@
+diff -up pari-2.15.5/src/graph/plotfltk.c.omv~ pari-2.15.5/src/graph/plotfltk.c
+--- pari-2.15.5/src/graph/plotfltk.c.omv~	2024-11-19 17:07:06.314469068 +0100
++++ pari-2.15.5/src/graph/plotfltk.c	2024-11-19 17:07:11.054535428 +0100
+@@ -24,6 +24,8 @@ extern "C" {
+ #include "rect.h"
+ }
+ 
++#undef swap
++
+ #include <FL/Fl.H>
+ #include <FL/Fl_Window.H>
+ #include <FL/fl_draw.H>

@@ -1,9 +1,9 @@
 sources:
+  pari-gp.xpm: c494f3469efc0a752e33b86bb7d4e4c49596ba97
   elldata.tgz: af8dea90efbef6dd27ba3ee1d3f7fe6f21326b32
   galdata.tgz: 0fe78ed49e197066708a3fc3753b2651107a1264
   galpol.tgz: b072d752207bf598c86c896dc2ce35314fd9aff4
-  gp2c-0.0.13.tar.gz: d13f7f3b2ba1ee826ea0495af8f1ecb9d3221a47
   nftables.tgz: 90df66222346b0dbca68925671a374f5e286daeb
-  pari-gp.xpm: c494f3469efc0a752e33b86bb7d4e4c49596ba97
   seadata.tgz: fa3deb36df0ce71a466eb0ff0d4a18d48d44e8b9
-  pari-2.15.5.tar.gz: 377593dfe72df13578ea0a517fcb0f81cc9758d4
+  gp2c-0.0.14.tar.gz: 8da45efa235f23d3cb2456ed6bef5b6f3b747aeb
+  pari-2.17.0.tar.gz: 5457726db66c7d243db2cb9ce1816bca52202bca

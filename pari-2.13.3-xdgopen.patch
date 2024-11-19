@@ -1,8 +1,9 @@
---- a/doc/gphelp.in
-+++ b/doc/gphelp.in
-@@ -43,8 +43,8 @@
+diff -up pari-2.17.0/doc/gphelp.in.1~ pari-2.17.0/doc/gphelp.in
+--- pari-2.17.0/doc/gphelp.in.1~	2024-11-19 17:10:33.797348727 +0100
++++ pari-2.17.0/doc/gphelp.in	2024-11-19 17:11:19.837981814 +0100
+@@ -43,8 +43,8 @@ $datadir= "@datadir@";
  #
- $wwwsite= "http://pari.math.u-bordeaux.fr/";
+ $wwwsite= "https://pari.math.u-bordeaux.fr/";
  
 -$xdvi = $ENV{GPXDVI} || "xdvi";
 -$xdviref = $ENV{GPXDVIREF} || "$xdvi -paper 29.7x21cm";
@@ -11,4 +12,3 @@
  $gzip = "gzip";
  $zcat = "$gzip -dc";
  $bzip = "bzip2";
-

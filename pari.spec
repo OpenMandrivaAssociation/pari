@@ -1,18 +1,17 @@
 %define _disable_lto 1
 
 
-%define	major	8
+%define	major	9
 %define	liboname	lib%{name}
 %define	libname	%mklibname %{name}
 %define	devname	%mklibname %{name} -d
-%define	oldlibname	%mklibname %{name} %{major}
 
 %define	shortver	%(echo %version | cut -d\. -f 1,2)
-%define	gp2c_version	0.0.13
+%define	gp2c_version	0.0.14
 
 Summary:	PARI/GP - Number Theory-oriented Computer Algebra System
 Name:		pari
-Version:	2.15.5
+Version:	2.17.0
 Release:	1
 License:	GPL+
 Group:		Sciences/Mathematics
@@ -32,6 +31,7 @@ Patch0:		pari-2.13.3-xdgopen.patch
 Patch1:		pari-2.13.3-optflags.patch
 # Fix docs path
 Patch2:		pari-2.13.3-gp2c_doc.patch
+Patch3:		pari-2.15.5-fltk-1.4.patch
 # Use bsdtar style
 Patch100:	pari-2.13.3-fix_install_use_bsdtar_style.patch
 # Fix compiler warnings
@@ -48,6 +48,7 @@ BuildRequires:	pkgconfig(ncurses)
 BuildRequires:	pkgconfig(readline)
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	texlive
+BuildRequires:	texlive-l3backend
 #BuildRequires:	emacs
 Requires:	perl
 Requires:	xdg-utils
@@ -117,8 +118,6 @@ tables (errors fixed, 1/10th the size, easier to use).
 Group:		System/Libraries
 Summary:	Shared PARI library
 Provides:	%{liboname} = %{version}-%{release}
-# Intentionally unversioned, because libname should not contain version number
-Obsoletes:	%{oldlibname} < %{ERVD}
 
 %description -n	%{libname}
 This package contains the libraries needed to run pari.
@@ -223,7 +222,7 @@ export OPTFLAGS="%{optflags}"
 	--with-fltk \
 	--with-gmp
 
-%make_build gp # bench # docpdf
+%make_build CC="%{__cc}" CXX="%{__cxx}" gp # bench # docpdf
 
 # gp2c
 pushd gp2c-%{gp2c_version}
