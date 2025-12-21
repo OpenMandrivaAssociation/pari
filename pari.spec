@@ -40,6 +40,11 @@ Patch10:	pari-2.13.3-missing-field-init.patch
 #Patch11:	pari-2.13.3-declaration-not-prototype.patch
 Patch12:	pari-2.15.1-clobbered.patch
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	perl-devel
 BuildRequires:	fltk-devel
 BuildRequires:	gmp-devel
