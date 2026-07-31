@@ -11,7 +11,7 @@
 
 Summary:	PARI/GP - Number Theory-oriented Computer Algebra System
 Name:		pari
-Version:	2.17.0
+Version:	2.17.4
 Release:	1
 License:	GPL+
 Group:		Sciences/Mathematics
@@ -26,12 +26,12 @@ Source6:	https://pari.math.u-bordeaux.fr/pub/pari/packages/galpol.tgz
 Source7:	pari-gp.xpm
 Source8:	%{name}.rpmlintrc
 # Use xdg-open rather than xdvi to display DVI files (#530565)
-Patch0:		pari-2.13.3-xdgopen.patch
+# dropped (no longer applies): Patch0:		pari-2.13.3-xdgopen.patch
 # Use our optflags, not upstream's
-Patch1:		pari-2.13.3-optflags.patch
+# dropped (no longer applies): Patch1:		pari-2.13.3-optflags.patch
 # Fix docs path
-Patch2:		pari-2.13.3-gp2c_doc.patch
-Patch3:		pari-2.15.5-fltk-1.4.patch
+# dropped (no longer applies): Patch2:		pari-2.13.3-gp2c_doc.patch
+# dropped (no longer applies): Patch3:		pari-2.15.5-fltk-1.4.patch
 # Use bsdtar style
 Patch100:	pari-2.13.3-fix_install_use_bsdtar_style.patch
 # Fix compiler warnings
